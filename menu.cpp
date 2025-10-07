@@ -10,101 +10,43 @@ void LoadCustomConfig(const std::string& configName);
 void ResetToDefaults();
 void ExportCurrentConfig();
 void ImportConfigFromFile();
-
-namespace {
-	// Theme System
-	enum class Theme {
-		CODEX_BLUE = 0,
-		CYBER_PURPLE = 1,
-		NEON_GREEN = 2,
-		FIRE_ORANGE = 3,
-		ICE_BLUE = 4
-	};
-
-	static int currentTheme = 0;
-
+	// Single Dark Theme System
 	struct ThemeColors {
-		ImVec4 PrimaryDark;
-		ImVec4 PrimaryBlue;
-		ImVec4 AccentBlue;
-		ImVec4 BrightBlue;
-		ImVec4 LightBlue;
-		ImVec4 TextPrimary;
-		ImVec4 TextSecondary;
-		ImVec4 Success;
-		ImVec4 Warning;
-		ImVec4 Error;
-		ImVec4 Transparent;
+		ImVec4 Background;      // Main background
+		ImVec4 BackgroundAlt;   // Alternative background
+		ImVec4 Surface;         // Surface elements
+		ImVec4 SurfaceAlt;      // Alternative surface
+		ImVec4 Border;          // Border color
+		ImVec4 BorderActive;    // Active border
+		ImVec4 Accent;          // Primary accent
+		ImVec4 AccentHover;     // Hovered accent
+		ImVec4 AccentActive;    // Active accent
+		ImVec4 TextPrimary;     // Primary text
+		ImVec4 TextSecondary;   // Secondary text
+		ImVec4 Success;         // Success state
+		ImVec4 Warning;         // Warning state
+		ImVec4 Error;           // Error state
+		ImVec4 Transparent;     // Transparent
 	};
 
-	static const ThemeColors themes[] = {
-		// CODEX Blue (Default)
-		{
-			ImAdd::Hex2RGBA(0x1a1a2e, 1.0f),  // PrimaryDark
-			ImAdd::Hex2RGBA(0x16213e, 1.0f),  // PrimaryBlue
-			ImAdd::Hex2RGBA(0x0f4c75, 1.0f),  // AccentBlue
-			ImAdd::Hex2RGBA(0x3282b8, 1.0f),  // BrightBlue
-			ImAdd::Hex2RGBA(0xbbe1fa, 1.0f),  // LightBlue
-			ImAdd::Hex2RGBA(0xffffff, 0.9f),  // TextPrimary
-			ImAdd::Hex2RGBA(0xc0c0c0, 0.7f),  // TextSecondary
-			ImAdd::Hex2RGBA(0x00d4aa, 1.0f),  // Success
-			ImAdd::Hex2RGBA(0xff6b35, 1.0f),  // Warning
-			ImAdd::Hex2RGBA(0xff1744, 1.0f),  // Error
-			ImAdd::Hex2RGBA(0x000000, 0.0f)   // Transparent
-		},
-		// Cyber Purple
-		{
-			ImAdd::Hex2RGBA(0x2d1b69, 1.0f),  // PrimaryDark
-			ImAdd::Hex2RGBA(0x3c1361, 1.0f),  // PrimaryBlue
-			ImAdd::Hex2RGBA(0x8b5cf6, 1.0f),  // AccentBlue
-			ImAdd::Hex2RGBA(0xa855f7, 1.0f),  // BrightBlue
-			ImAdd::Hex2RGBA(0xddd6fe, 1.0f),  // LightBlue
-			ImAdd::Hex2RGBA(0xffffff, 0.9f),  // TextPrimary
-			ImAdd::Hex2RGBA(0xc4b5fd, 0.7f),  // TextSecondary
-			ImAdd::Hex2RGBA(0x10b981, 1.0f),  // Success
-			ImAdd::Hex2RGBA(0xf59e0b, 1.0f),  // Warning
-			ImAdd::Hex2RGBA(0xef4444, 1.0f),  // Error
-			ImAdd::Hex2RGBA(0x000000, 0.0f)   // Transparent
-		},
-		// Neon Green
-		{
-			ImAdd::Hex2RGBA(0x0f172a, 1.0f),  // PrimaryDark
-			ImAdd::Hex2RGBA(0x1e293b, 1.0f),  // PrimaryBlue
-			ImAdd::Hex2RGBA(0x059669, 1.0f),  // AccentBlue
-			ImAdd::Hex2RGBA(0x10b981, 1.0f),  // BrightBlue
-			ImAdd::Hex2RGBA(0x6ee7b7, 1.0f),  // LightBlue
-			ImAdd::Hex2RGBA(0xffffff, 0.9f),  // TextPrimary
-			ImAdd::Hex2RGBA(0xa7f3d0, 0.7f),  // TextSecondary
-			ImAdd::Hex2RGBA(0x34d399, 1.0f),  // Success
-			ImAdd::Hex2RGBA(0xfbbf24, 1.0f),  // Warning
-			ImAdd::Hex2RGBA(0xf87171, 1.0f),  // Error
-			ImAdd::Hex2RGBA(0x000000, 0.0f)   // Transparent
-		},
-		// Fire Orange
-		{
-			ImAdd::Hex2RGBA(0x431407, 1.0f),  // PrimaryDark
-			ImAdd::Hex2RGBA(0x7c2d12, 1.0f),  // PrimaryBlue
-			ImAdd::Hex2RGBA(0xea580c, 1.0f),  // AccentBlue
-			ImAdd::Hex2RGBA(0xf97316, 1.0f),  // BrightBlue
-			ImAdd::Hex2RGBA(0xfed7aa, 1.0f),  // LightBlue
-			ImAdd::Hex2RGBA(0xffffff, 0.9f),  // TextPrimary
-			ImAdd::Hex2RGBA(0xfed7aa, 0.7f),  // TextSecondary
-			ImAdd::Hex2RGBA(0x22c55e, 1.0f),  // Success
-			ImAdd::Hex2RGBA(0xfbbf24, 1.0f),  // Warning
-			ImAdd::Hex2RGBA(0xef4444, 1.0f),  // Error
-			ImAdd::Hex2RGBA(0x000000, 0.0f)   // Transparent
-		},
-		// Ice Blue
-		{
-			ImAdd::Hex2RGBA(0x0f172a, 1.0f),  // PrimaryDark
-			ImAdd::Hex2RGBA(0x0ea5e9, 1.0f),  // PrimaryBlue
-			ImAdd::Hex2RGBA(0x0284c7, 1.0f),  // AccentBlue
-			ImAdd::Hex2RGBA(0x38bdf8, 1.0f),  // BrightBlue
-			ImAdd::Hex2RGBA(0xbae6fd, 1.0f),  // LightBlue
-			ImAdd::Hex2RGBA(0xffffff, 0.9f),  // TextPrimary
-			ImAdd::Hex2RGBA(0x7dd3fc, 0.7f),  // TextSecondary
-			ImAdd::Hex2RGBA(0x22d3ee, 1.0f),  // Success
-			ImAdd::Hex2RGBA(0xfbbf24, 1.0f),  // Warning
+	// Single clean dark theme with cyan accent
+	static const ThemeColors DarkTheme = {
+		ImAdd::Hex2RGBA(0x0a0a0a, 1.0f),  // Background - Very dark gray
+		ImAdd::Hex2RGBA(0x151515, 1.0f),  // BackgroundAlt - Dark gray
+		ImAdd::Hex2RGBA(0x1a1a1a, 1.0f),  // Surface - Slightly lighter
+		ImAdd::Hex2RGBA(0x222222, 1.0f),  // SurfaceAlt - Alternative surface
+		ImAdd::Hex2RGBA(0x2a2a2a, 1.0f),  // Border - Subtle border
+		ImAdd::Hex2RGBA(0x3a3a3a, 1.0f),  // BorderActive - Active border
+		ImAdd::Hex2RGBA(0x00d9ff, 1.0f),  // Accent - Cyan accent
+		ImAdd::Hex2RGBA(0x33e0ff, 1.0f),  // AccentHover - Brighter cyan
+		ImAdd::Hex2RGBA(0x00b8d4, 1.0f),  // AccentActive - Darker cyan
+		ImAdd::Hex2RGBA(0xffffff, 0.95f), // TextPrimary - White
+		ImAdd::Hex2RGBA(0xaaaaaa, 0.85f), // TextSecondary - Gray
+		ImAdd::Hex2RGBA(0x00ff88, 1.0f),  // Success - Green
+		ImAdd::Hex2RGBA(0xffaa00, 1.0f),  // Warning - Orange
+		ImAdd::Hex2RGBA(0xff3366, 1.0f),  // Error - Red
+		ImAdd::Hex2RGBA(0x000000, 0.0f)   // Transparent
+	};
 			ImAdd::Hex2RGBA(0xf87171, 1.0f),  // Error
 			ImAdd::Hex2RGBA(0x000000, 0.0f)   // Transparent
 		}
@@ -114,11 +56,7 @@ namespace {
 	static bool needsRedraw = true;
 	static int lastSelectedPageId = -1;
 	static int framesSinceUpdate = 0;
-	static const int REDRAW_INTERVAL = 3; // Update every 3 frames for animations
-	
-	// Cached theme colors to avoid repeated calculations
-	static ThemeColors cachedColors;
-	static int lastThemeIndex = -1;
+	static const int REDRAW_INTERVAL = 3; // Update every 3 frc int lastThemeIndex = -1;
 	
 	// Optimized animation variables with frame limiting
 	static float headerAnimTime = 0.0f;
@@ -136,16 +74,8 @@ namespace {
 	// Enhanced control animations with cleanup
 	static std::unordered_map<ImGuiID, float> buttonHoverAnim;
 	static std::unordered_map<ImGuiID, float> toggleSlideAnim;
-	static std::unordered_map<ImGuiID, float> sliderGlowAnim;
-
-	// Optimized helper function to access current theme colors with caching
-	inline const ThemeColors& GetModernColors() {
-		if (lastThemeIndex != currentTheme) {
-			cachedColors = themes[currentTheme];
-			lastThemeIndex = currentTheme;
-			needsRedraw = true; // Trigger redraw on theme change
-		}
-		return cachedColors;
+	static std::uno	// Direct access to the single dark theme
+	#define ModernColors DarkThemehedColors;
 	}
 	#define ModernColors GetModernColors()
 	
@@ -374,50 +304,36 @@ void Menu::RenderMenu() {
 		Loop::RunLoop();
 
 		if (menuOpen) {
-			ImGuiStyle& style = ImGui::GetStyle();
-
-			static ImVec4 colorPick = ImAdd::Hex2RGBA(0x7099FF, 1.0f);
-			style.Colors[ImGuiCol_SliderGrab] = colorPick;
-			style.Colors[ImGuiCol_ScrollbarGrab] = colorPick;
-
-			// Animated topbar with modern styling
-			{
-				headerAnimTime += ImGui::GetIO().DeltaTime;
-				
-				ImGui::SetNextWindowPos({ static_cast<float>(Render::g_screenWidth / 2) - (topbarSize.x / 2), 10 }, ImGuiCond_Always);
+			ImGuiStyle& style = ImGui::GetStyle()				ImGui::SetNextWindowPos({ static_cast<float>(Render::g_screenWidth / 2) - (topbarSize.x / 2), 10 }, ImGuiCond_Always);
 				ImGui::SetNextWindowSize(topbarSize);
 				ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(15.0f, 10.0f));
-				ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 12.0f);
-				ImGui::PushStyleColor(ImGuiCol_WindowBg, ModernColors.PrimaryBlue);
-				ImGui::PushStyleColor(ImGuiCol_Border, ModernColors.AccentBlue);
-				ImGui::Begin("##modern_topbar", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove);
-				{
-					auto drawList = ImGui::GetWindowDrawList();
+				ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+				ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 2.0f);
+				ImGui::PushStyleColor(ImGuiCol_WindowBg, ModernColors.Surface);
+				ImGui::PushStyleColor(ImGuiCol_Border, ModernColors.Accent);
+				ImGui::Begin("##modern_topbar", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove);(ImGuiStyleVar_Windo					auto drawList = ImGui::GetWindowDrawList();
 					auto windowPos = ImGui::GetWindowPos();
 					auto windowSize = ImGui::GetWindowSize();
 					
-					// Gradient background
-					drawList->AddRectFilledMultiColor(
-						windowPos,
-						windowPos + windowSize,
-						ImGui::GetColorU32(ModernColors.PrimaryBlue),
-						ImGui::GetColorU32(ModernColors.AccentBlue),
-						ImGui::GetColorU32(ModernColors.AccentBlue),
-						ImGui::GetColorU32(ModernColors.PrimaryBlue)
+					// Animated accent line at bottom
+					float pulseAlpha = (sin(headerAnimTime * 2.0f) + 1.0f) * 0.3f + 0.6f;
+					ImVec4 accentColor = ModernColors.Accent;
+					accentColor.w *= pulseAlpha;
+					drawList->AddRectFilled(
+						windowPos + ImVec2(0.0f, windowSize.y - 2.0f),
+						windowPos + ImVec2(windowSize.x, windowSize.y),
+						ImGui::GetColorU32(accentColor)
 					);
 					
-					// Animated pulse effect
-					float pulseAlpha = (sin(headerAnimTime * 2.0f) + 1.0f) * 0.1f + 0.1f;
-					drawList->AddRect(
-						windowPos + ImVec2(2.0f, 2.0f),
-						windowPos + windowSize - ImVec2(2.0f, 2.0f),
-					ImGui::GetColorU32(ImVec4(ModernColors.BrightBlue.x, ModernColors.BrightBlue.y, ModernColors.BrightBlue.z, pulseAlpha)),
+					// Left side - Brand info
+					ImGui::PushStyleColor(ImGuiCol_Text, ModernColors.Accent);
+					ImGui::Text(ICON_FA_SHIELD_HALVED " CODEX | Premium");rnColors.BrightBlue.z, pulseAlpha)),
 						10.0f, 0, 2.0f
 					);
 					
 					// Left side - Brand info with animated icon
 					float iconSpin = headerAnimTime * 0.5f;
-					ImGui::PushStyleColor(ImGuiCol_Text, ModernColors.LightBlue);
+					ImGui::PushStyleColor(ImGuiCol_Text, ModernColors.Accent);
 					ImGui::Text(ICON_FA_SHIELD_HALVED " CODEX | Premium");
 					ImGui::PopStyleColor();
 					
@@ -425,15 +341,7 @@ void Menu::RenderMenu() {
 					ImGui::SameLine(topbarSize.x * 0.4f);
 					ImGui::PushStyleColor(ImGuiCol_Text, ModernColors.TextSecondary);
 					const auto& now = std::chrono::system_clock::now();
-					auto time_t = std::chrono::system_clock::to_time_t(now);
-					struct tm timeinfo;
-					localtime_s(&timeinfo, &time_t);
-					char timeBuffer[64];
-					snprintf(timeBuffer, sizeof(timeBuffer), ICON_FA_CLOCK " %02d:%02d", timeinfo.tm_hour, timeinfo.tm_min);
-					ImGui::Text(timeBuffer);
-					ImGui::PopStyleColor();
-					
-					// Right side - FPS with color coding
+					auto time_t = std::chrono::system_cloc					// Right side - FPS with color coding
 					ImGui::SameLine(topbarSize.x - 90);
 					const auto& io = ImGui::GetIO();
 					float fps = io.Framerate;
@@ -444,89 +352,78 @@ void Menu::RenderMenu() {
 				}
 				ImGui::End();
 				ImGui::PopStyleColor(2);
+				ImGui::PopStyleVar(3);0 ? ModernColors.Success : (fps > 30 ? ModernColors.Warning : ModernColors.Error);
+					ImGui::PushStyleColor(ImGuiCol_Text, fpsColor);
+					ImGui::Text(ICON_FA_GAUGE_HIGH " %.0f", fps);
+					ImGui::PopStyleColor();
+				}
+				ImGui::End();
+				ImGui::PopStyleColor(2);
 				ImGui::PopStyleVar(2);
 			}
 
-			ImGui::SetNextWindowPos({ (static_cast<float>(Render::g_screenWidth) / 2.0f) - (menuSize.x / 2.0f), (static_cast<float>(Render::g_screenHeight) / 2.0f) - (menuSize.y / 2.0f) }, ImGuiCond_FirstUseEver);
-			ImGui::SetNextWindowSize(menuSize);
-			ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
-			ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
-			ImGui::Begin("##aidens_main_window", nullptr, mainWindowFlags);
-			{
-				ImGui::PopStyleVar(2);
-			// Modern sidebar with gradient background and blur effects
+			ImGui::SetNextWindowPos({ (static_cast<float>(Render::g_screenWidth) / 2.0f) - (menuSize.x / 2.0f), (static_cast<float>(Render::g_screenHeight) / 2.0f) - (menuSize.y / 2.0f) }, ImGui			// Clean sidebar with solid colors and sharp borders
 			{
 				auto drawList = ImGui::GetWindowDrawList();
 				auto windowPos = ImGui::GetWindowPos();
 				auto windowSize = ImGui::GetWindowSize();
 				
-				// Glass-like backdrop for sidebar
-				ImVec4 glassColor = ModernColors.PrimaryDark;
-				glassColor.w = 0.85f; // Semi-transparent
+				// Solid sidebar background
 				drawList->AddRectFilled(
 					windowPos,
 					windowPos + ImVec2(sidebarSize, windowSize.y),
-					ImGui::GetColorU32(glassColor),
-					12.0f
-				);
-				
-				// Subtle overlay gradient
-				drawList->AddRectFilledMultiColor(
-					windowPos,
-					windowPos + ImVec2(sidebarSize, windowSize.y),
-					ImGui::GetColorU32(ImVec4(ModernColors.PrimaryBlue.x, ModernColors.PrimaryBlue.y, ModernColors.PrimaryBlue.z, 0.3f)),
-					ImGui::GetColorU32(ImVec4(ModernColors.AccentBlue.x, ModernColors.AccentBlue.y, ModernColors.AccentBlue.z, 0.1f)),
-					ImGui::GetColorU32(ImVec4(ModernColors.AccentBlue.x, ModernColors.AccentBlue.y, ModernColors.AccentBlue.z, 0.1f)),
-					ImGui::GetColorU32(ImVec4(ModernColors.PrimaryBlue.x, ModernColors.PrimaryBlue.y, ModernColors.PrimaryBlue.z, 0.3f))
+					ImGui::GetColorU32(ModernColors.BackgroundAlt)
 				);
 					
-					// Main content gradient background
-					drawList->AddRectFilledMultiColor(
+					// Main content solid background
+					drawList->AddRectFilled(
 						windowPos + ImVec2(sidebarSize, 0.0f),
 						windowPos + windowSize,
-							ImGui::GetColorU32(ModernColors.PrimaryBlue),
-							ImGui::GetColorU32(ModernColors.AccentBlue),
-							ImGui::GetColorU32(ModernColors.AccentBlue),
-							ImGui::GetColorU32(ModernColors.PrimaryBlue)
+						ImGui::GetColorU32(ModernColors.Background)
 					);
 					
-					// Subtle border effects
+					// Sharp border around entire window
 					drawList->AddRect(
 						windowPos,
 						windowPos + windowSize,
-						ImGui::GetColorU32(ModernColors.AccentBlue),
-						15.0f, 0, 2.0f
+						ImGui::GetColorU32(ModernColors.Border),
+						0.0f, 0, 2.0f
 					);
 					
-					// Sidebar separator line with glow effect
+					// Animated sidebar separator line
 					sidebarAnimTime += ImGui::GetIO().DeltaTime;
-					float glowIntensity = (sin(sidebarAnimTime * 1.5f) + 1.0f) * 0.3f + 0.4f;
-					drawList->AddLine(
-						windowPos + ImVec2(sidebarSize - 1.0f, 20.0f),
-						windowPos + ImVec2(sidebarSize - 1.0f, windowSize.y - 20.0f),
-						ImGui::GetColorU32(ImVec4(ModernColors.BrightBlue.x, ModernColors.BrightBlue.y, ModernColors.BrightBlue.z, glowIntensity)),
-						3.0f
-					);
-
-					ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(12.0f, 15.0f));
-					ImGui::PushStyleVar(ImGuiStyleVar_ScrollbarSize, 8.0f);
-					ImGui::PushStyleVar(ImGuiStyleVar_ScrollbarRounding, 4.0f);
+					float glowIntensity = (sin(sidebarAnimTime * 2.0f) + 1.0f) * 0.3f + 0.5f;
+					ImVec4 separatorColor = ModernColors.Accent;
+					separatorColor.w = glowIntensity;
+					drawList->AddRectFilled(
+						windowPos + ImVec2(sidebarSize - 2.0f, 0.0f),
+						windowPos + ImVec2(sidebarSize, windowSize.y),
+						ImGui::GetColorU32(separatorColor)
+					); (sin(sidebarAnimTime * 1.5f) + 1.0f) * 0.3f + 0.4f;
+						ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(12.0f, 15.0f));
+					ImGui::PushStyleVar(ImGuiStyleVar_ScrollbarSize, 6.0f);
+					ImGui::PushStyleVar(ImGuiStyleVar_ScrollbarRounding, 0.0f);
 					ImGui::PushStyleColor(ImGuiCol_ScrollbarBg, ModernColors.Transparent);
-					ImGui::PushStyleColor(ImGuiCol_ScrollbarGrab, ModernColors.AccentBlue);
-					ImGui::PushStyleColor(ImGuiCol_ScrollbarGrabHovered, ModernColors.BrightBlue);
-					ImGui::PushStyleColor(ImGuiCol_ScrollbarGrabActive, ModernColors.LightBlue);
-					ImGui::BeginChild("##modern_sidebar", ImVec2(sidebarSize, 0.0f), false, ImGuiWindowFlags_NoBackground);
-					{
-						// Modern logo/title section
-						ImGui::PushStyleColor(ImGuiCol_Text, ModernColors.LightBlue);
+					ImGui::PushStyleColor(ImGuiCol_ScrollbarGrab, ModernColors.Accent);
+					ImGui::PushStyleColor(ImGuiCol_ScrollbarGrabHovered, ModernColors.AccentHover);
+					ImGui::PushStyleColor(ImGuiCol_ScrollbarGrabActive, ModernColors.AccentActive);shStyleColor(ImGuiCol_ScrollbarBg, ModernColors.Transparent);
+					ImGui::PushStyleColor(ImGuiCol_ScrollbarGrab, ModernColors.						// Clean logo/title section
+						ImGui::PushStyleColor(ImGuiCol_Text, ModernColors.Accent);
 						ImGui::SetCursorPosX((sidebarSize - ImGui::CalcTextSize("CODEX MENU").x) * 0.5f - 12.0f);
 						ImGui::Text(ICON_FA_ATOM " CODEX MENU");
 						ImGui::PopStyleColor();
 						
-						// Animated underline
-						float underlineWidth = ImGui::CalcTextSize("CODEX MENU").x + 20.0f;
-						float underlineX = (sidebarSize - underlineWidth) * 0.5f;
+						// Sharp underline bar
+						float underlineWidth = sidebarSize - 24.0f;
+						float underlineX = 12.0f;
 						ImVec2 underlineStart = ImGui::GetWindowPos() + ImVec2(underlineX, ImGui::GetCursorPosY() + 5.0f);
+						ImVec2 underlineEnd = underlineStart + ImVec2(underlineWidth, 0.0f);
+						
+						drawList->AddRectFilled(
+							underlineStart,
+							underlineStart + ImVec2(underlineWidth, 2.0f),
+							ImGui::GetColorU32(ModernColors.Accent)
+						);neStart = ImGui::GetWindowPos() + ImVec2(underlineX, ImGui::GetCursorPosY() + 5.0f);
 						ImVec2 underlineEnd = underlineStart + ImVec2(underlineWidth, 0.0f);
 						
 						drawList->AddLine(
@@ -536,19 +433,15 @@ void Menu::RenderMenu() {
 							2.0f
 						);
 						
-						ImGui::Spacing(); ImGui::Spacing(); ImGui::Spacing();
-						
-						int selectedPageNum = 0;
-
-						for (const auto& section : allSections) {
-							// Modern section header
-							ImGui::PushStyleColor(ImGuiCol_Text, ModernColors.TextSecondary);
-							ImGui::Text(section.title);
-							ImGui::PopStyleColor();
-							
-							// Section underline
-							float sectionLineWidth = ImGui::CalcTextSize(section.title).x;
-							ImVec2 sectionLineStart = ImGui::GetWindowPos() + ImVec2(ImGui::GetCursorPosX(), ImGui::GetCursorPosY() + 3.0f);
+						ImGui::Spacing(							// Section separator line
+							float sectionLineWidth = sidebarSize - 24.0f;
+							ImVec2 sectionLineStart = ImGui::GetWindowPos() + ImVec2(12.0f, ImGui::GetCursorPosY() + 3.0f);
+							ImVec2 sectionLineEnd = sectionLineStart + ImVec2(sectionLineWidth, 0.0f);
+							drawList->AddRectFilled(
+								sectionLineStart,
+								sectionLineStart + ImVec2(sectionLineWidth, 1.0f),
+								ImGui::GetColorU32(ModernColors.Border)
+							);::GetWindowPos() + ImVec2(ImGui::GetCursorPosX(), ImGui::GetCursorPosY() + 3.0f);
 							ImVec2 sectionLineEnd = sectionLineStart + ImVec2(sectionLineWidth, 0.0f);
 							drawList->AddLine(
 								sectionLineStart,
@@ -568,24 +461,21 @@ void Menu::RenderMenu() {
 								
 								// Update hover animation - only throttle the animation update
 								if (shouldUpdateUIAnims) {
-									bool isHovered = ImGui::IsItemHovered();
-									float& hoverAnim = buttonHoverAnim[buttonId];
-									float hoverTarget = (isSelected ? 1.0f : (isHovered ? 0.6f : 0.0f));
-									hoverAnim += (hoverTarget - hoverAnim) * 8.0f * ImGui::GetIO().DeltaTime;
-									if (abs(hoverAnim - hoverTarget) < 0.01f) hoverAnim = hoverTarget;
+									bool isHovered = ImGui::IsI								// Interpolate button colors based on hover animation
+								float hoverProgress = buttonHoverAnim[buttonId];
+								ImVec4 buttonColor;
+								if (isSelected) {
+									buttonColor = ModernColors.Surface;
+								} else {
+									buttonColor = ImVec4(
+										ModernColors.Surface.x * hoverProgress,
+										ModernColors.Surface.y * hoverProgress,
+										ModernColors.Surface.z * hoverProgress,
+										ModernColors.Surface.w * hoverProgress * 0.5f
+									);
 								}
 								
-								// Interpolate button colors based on hover animation
-								float hoverProgress = buttonHoverAnim[buttonId];
-								ImVec4 buttonColor = isSelected ? ModernColors.BrightBlue : 
-									ImVec4(
-										ModernColors.AccentBlue.x * hoverProgress,
-										ModernColors.AccentBlue.y * hoverProgress,
-										ModernColors.AccentBlue.z * hoverProgress,
-										ModernColors.AccentBlue.w * hoverProgress * 0.7f
-									);
-								
-								ImVec4 textColor = ImVec4(
+								ImVec4 textColor = isSelected ? ModernColors.Accent : ImVec4(
 									ModernColors.TextSecondary.x + (ModernColors.TextPrimary.x - ModernColors.TextSecondary.x) * hoverProgress,
 									ModernColors.TextSecondary.y + (ModernColors.TextPrimary.y - ModernColors.TextSecondary.y) * hoverProgress,
 									ModernColors.TextSecondary.z + (ModernColors.TextPrimary.z - ModernColors.TextSecondary.z) * hoverProgress,
@@ -594,6 +484,11 @@ void Menu::RenderMenu() {
 								
 								ImGui::PushStyleVar(ImGuiStyleVar_ButtonTextAlign, ImVec2(0.0f, 0.5f));
 								ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(15.0f, 12.0f));
+								ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 0.0f);
+								
+								ImGui::PushStyleColor(ImGuiCol_Button, buttonColor);
+								ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ModernColors.Surface);
+								ImGui::PushStyleColor(ImGuiCol_ButtonActive, ModernColors.SurfaceAlt);yleVar(ImGuiStyleVar_FramePadding, ImVec2(15.0f, 12.0f));
 								ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 8.0f);
 								
 								ImGui::PushStyleColor(ImGuiCol_Button, buttonColor);
@@ -602,24 +497,19 @@ void Menu::RenderMenu() {
 								ImGui::PushStyleColor(ImGuiCol_Text, textColor);
 								
 								std::string buttonText = std::string(page.icon) + "  " + page.pageTitle;
-								if (ImGui::Button(buttonText.c_str(), ImVec2(sidebarSize - 24.0f, 0.0f))) {
-									// Trigger page transition
-									if (selectedPageNum != selectedPageId) {
-										transitionFromPage = selectedPageId;
-										transitionToPage = selectedPageNum;
-										pageTransitioning = true;
-										pageTransitionProgress = 0.0f;
-										selectedPageId = selectedPageNum;
-									}
-								}
-								
-								// Add glow effect for selected button
-								if (isSelected || hoverProgress > 0.1f) {
+								if (ImGui::Button(buttonText.c_str(), ImVec2(sidebarSize - 24.0f, 0.0f))								// Add accent indicator for selected button
+								if (isSelected) {
 									auto buttonDrawList = ImGui::GetWindowDrawList();
 									auto itemMin = ImGui::GetItemRectMin();
 									auto itemMax = ImGui::GetItemRectMax();
 									
-									// Subtle outer glow
+									// Left accent bar
+									buttonDrawList->AddRectFilled(
+										itemMin,
+										ImVec2(itemMin.x + 3.0f, itemMax.y),
+										ImGui::GetColorU32(ModernColors.Accent)
+									);
+								} outer glow
 									float glowAlpha = hoverProgress * 0.4f;
 									buttonDrawList->AddRect(
 										itemMin - ImVec2(2.0f, 2.0f),
@@ -640,42 +530,39 @@ void Menu::RenderMenu() {
 						}
 					}
 					ImGui::EndChild();
-					ImGui::PopStyleColor(4);
-					ImGui::PopStyleVar(4);
-				}
-
-				// Modern main content area
-				{
-					ImGui::SameLine(sidebarSize);
-					ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(20.0f, 15.0f));
-					ImGui::BeginChild("##modern_content", ImVec2(0.0f, 0.0f), false, ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoScrollbar);
-					{
-						// Modern title bar with current page info
-						const auto* currentPage = GetCurrentPage();
-						if (currentPage) {
-							// Page header with icon and title
-							ImGui::PushStyleColor(ImGuiCol_Text, ModernColors.LightBlue);
-							ImGui::PushFont(nullptr); // You can add a larger font here
-							std::string pageHeader = std::string(currentPage->icon) + "  " + currentPage->pageTitle;
-							ImGui::Text(pageHeader.c_str());
-							ImGui::PopFont();
-							ImGui::PopStyleColor();
-							
-							// Animated underline for current page
-							auto contentDrawList = ImGui::GetWindowDrawList();
-							float headerWidth = ImGui::CalcTextSize(pageHeader.c_str()).x;
-							ImVec2 headerLineStart = ImGui::GetWindowPos() + ImVec2(20.0f, ImGui::GetCursorPosY() + 3.0f);
-							ImVec2 headerLineEnd = headerLineStart + ImVec2(headerWidth, 0.0f);
+					// Clean title bar with current page info
+					const auto* currentPage = GetCurrentPage();
+					if (currentPage) {
+						// Page header with icon and title
+						ImGui::PushStyleColor(ImGuiCol_Text, ModernColors.Accent);
+						ImGui::PushFont(nullptr); // You can add a larger font here
+						std::string pageHeader = std::string(currentPage->icon) + "  " + currentPage->pageTitle;
+						ImGui::Text(pageHeader.c_str());
+						ImGui::PopFont();
+						ImGui::PopStyleColor();
+						
+						// Sharp underline bar
+						auto contentDrawList = ImGui::GetWindowDrawList();
+						float headerWidth = ImGui::CalcTextSize(pageHeader.c_str()).x;
+						ImVec2 headerLineStart = ImGui::GetWindowPos() + ImVec2(20.0f, ImGui::GetCursorPosY() + 3.0f);
+						ImVec2 headerLineEnd = headerLineStart + ImVec2(headerWidth, 0.0f);
+						contentDrawList->AddRectFilled(
+							headerLineStart,
+							headerLineStart + ImVec2(headerWidth, 2.0f),
+							ImGui::GetColorU32(ModernColors.Accent)
+						);
+					} else {
+						ImGui::PushStyleColor(ImGuiCol_Text, ModernColors.TextSecondary);
+						ImGui::Text(ICON_FA_HOUSE " CODEX | Premium External");
+						ImGui::PopStyleColor();
+					}tart + ImVec2(headerWidth, 0.0f);
 							contentDrawList->AddLine(
 								headerLineStart,
-								headerLineEnd,
-								ImGui::GetColorU32(ModernColors.BrightBlue),
-								3.0f
-							);
-						} else {
-							ImGui::PushStyleColor(ImGuiCol_Text, ModernColors.TextSecondary);
-							ImGui::Text(ICON_FA_HOUSE " CODEX | Premium External");
-							ImGui::PopStyleColor();
+											// Content area with 4-box grid layout
+						ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(10.0f, 10.0f));
+						ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 0.0f);
+						ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(15.0f, 15.0f));
+						ImGui::PushStyleVar(ImGuiStyleVar_ChildBorderSize, 1.0f);Gui::PopStyleColor();
 						}
 						
 						ImGui::Spacing(); ImGui::Spacing(); ImGui::Spacing();
@@ -685,20 +572,18 @@ void Menu::RenderMenu() {
 						ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 12.0f);
 						ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(15.0f, 15.0f));
 						
-						if (currentPage && currentPage->renderPage) {
-							// Calculate box dimensions
-							float contentWidth = ImGui::GetContentRegionAvail().x;
-							float contentHeight = ImGui::GetContentRegionAvail().y;
-							float boxWidth = (contentWidth - 15.0f) / 2.0f; // Account for spacing
-							float boxHeight = (contentHeight - 15.0f) / 2.0f;
-							
-							// Top row - Box 1 and Box 2
+						if (currentPage && current							// Top Left Box
+							ImGui::PushStyleColor(ImGuiCol_ChildBg, ModernColors.Surface);
+							ImGui::PushStyleColor(ImGuiCol_Border, ModernColors.Border);
+							ImGui::BeginChild("##content_box1", ImVec2(boxWidth, boxHeight), true);
+							{
+								ImGui::PushStyleColor(ImGuiCol_Text, ModernColors.Accent);						// Top row - Box 1 and Box 2
 							{
 								// Top Left Box
 								ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(ModernColors.PrimaryBlue.x, ModernColors.PrimaryBlue.y, ModernColors.PrimaryBlue.z, 0.4f));
 								ImGui::BeginChild("##content_box1", ImVec2(boxWidth, boxHeight), true);
 								{
-									ImGui::PushStyleColor(ImGuiCol_Text, ModernColors.LightBlue);
+									ImGui::PushStyleColor(ImGuiCol_Text, ModernColors.Accent);
 									ImGui::Text(ICON_FA_BULLSEYE " Primary Settings");
 									ImGui::PopStyleColor();
 									ImGui::Separator();
@@ -708,26 +593,24 @@ void Menu::RenderMenu() {
 									ImGui::PushStyleColor(ImGuiCol_Text, ModernColors.TextPrimary);
 							if (strcmp(currentPage->pageTitle, "Aimbot") == 0) {
 								PageRenderers::AimbotBox1();
-							} else if (strcmp(currentPage->pageTitle, "ESP") == 0) {
-								PageRenderers::ESPBox1();
-							} else if (strcmp(currentPage->pageTitle, "Settings") == 0) {
-								PageRenderers::SettingsBox1();
-							} else if (strcmp(currentPage->pageTitle, "Debug") == 0) {
-								PageRenderers::DebugBox1();
-							} else {
-								currentPage->renderPage();
-							}
-									ImGui::PopStyleColor();
-								}
-								ImGui::EndChild();
-								ImGui::PopStyleColor();
+							} else if 							}
+							ImGui::EndChild();
+							ImGui::PopStyleColor(2);
+							
+							// Top Right Box
+							ImGui::SameLine();
+							ImGui::PushStyleColor(ImGuiCol_ChildBg, ModernColors.Surface);
+							ImGui::PushStyleColor(ImGuiCol_Border, ModernColors.Border);
+							ImGui::BeginChild("##content_box2", ImVec2(boxWidth, boxHeight), true);
+							{
+								ImGui::PushStyleColor(ImGuiCol_Text, ModernColors.Accent);							ImGui::PopStyleColor();
 								
 								// Top Right Box
 								ImGui::SameLine();
 								ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(ModernColors.AccentBlue.x, ModernColors.AccentBlue.y, ModernColors.AccentBlue.z, 0.4f));
 								ImGui::BeginChild("##content_box2", ImVec2(boxWidth, boxHeight), true);
 								{
-									ImGui::PushStyleColor(ImGuiCol_Text, ModernColors.LightBlue);
+									ImGui::PushStyleColor(ImGuiCol_Text, ModernColors.Accent);
 									ImGui::Text(ICON_FA_SLIDERS " Advanced Options");
 									ImGui::PopStyleColor();
 									ImGui::Separator();
@@ -735,19 +618,19 @@ void Menu::RenderMenu() {
 									
 									// Render second quarter of page content
 									ImGui::PushStyleColor(ImGuiCol_Text, ModernColors.TextPrimary);
-							if (strcmp(currentPage->pageTitle, "Aimbot") == 0) {
-								PageRenderers::AimbotBox2();
-							} else if (strcmp(currentPage->pageTitle, "ESP") == 0) {
-								PageRenderers::ESPBox2();
-							} else if (strcmp(currentPage->pageTitle, "Settings") == 0) {
-								PageRenderers::SettingsBox2();
-							} else if (strcmp(currentPage->pageTitle, "Debug") == 0) {
-								PageRenderers::DebugBox2();
-							}
-									ImGui::PopStyleColor();
-								}
-								ImGui::EndChild();
-								ImGui::PopStyleColor();
+							if (strcmp(currentPage->pageTitle, "Aimbo							}
+							ImGui::EndChild();
+							ImGui::PopStyleColor(2);
+						}
+						
+						// Bottom row - Box 3 and Box 4
+						{
+							// Bottom Left Box
+							ImGui::PushStyleColor(ImGuiCol_ChildBg, ModernColors.Surface);
+							ImGui::PushStyleColor(ImGuiCol_Border, ModernColors.Border);
+							ImGui::BeginChild("##content_box3", ImVec2(boxWidth, boxHeight), true);
+							{
+								ImGui::PushStyleColor(ImGuiCol_Text, ModernColors.Accent);pStyleColor();
 							}
 							
 							// Bottom row - Box 3 and Box 4
@@ -756,7 +639,7 @@ void Menu::RenderMenu() {
 								ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(ModernColors.BrightBlue.x, ModernColors.BrightBlue.y, ModernColors.BrightBlue.z, 0.3f));
 								ImGui::BeginChild("##content_box3", ImVec2(boxWidth, boxHeight), true);
 								{
-									ImGui::PushStyleColor(ImGuiCol_Text, ModernColors.LightBlue);
+									ImGui::PushStyleColor(ImGuiCol_Text, ModernColors.Accent);
 									ImGui::Text(ICON_FA_PALETTE " Visual Settings");
 									ImGui::PopStyleColor();
 									ImGui::Separator();
@@ -764,18 +647,17 @@ void Menu::RenderMenu() {
 									
 									// Render third quarter of page content
 									ImGui::PushStyleColor(ImGuiCol_Text, ModernColors.TextPrimary);
-							if (strcmp(currentPage->pageTitle, "Aimbot") == 0) {
-								PageRenderers::AimbotBox3();
-							} else if (strcmp(currentPage->pageTitle, "ESP") == 0) {
-								PageRenderers::ESPBox3();
-							} else if (strcmp(currentPage->pageTitle, "Settings") == 0) {
-								PageRenderers::SettingsBox3();
-							} else if (strcmp(currentPage->pageTitle, "Debug") == 0) {
-								PageRenderers::DebugBox3();
-							}
-									ImGui::PopStyleColor();
-								}
-								ImGui::EndChild();
+							if (strcmp(currentPage->							}
+							ImGui::EndChild();
+							ImGui::PopStyleColor(2);
+							
+							// Bottom Right Box
+							ImGui::SameLine();
+							ImGui::PushStyleColor(ImGuiCol_ChildBg, ModernColors.Surface);
+							ImGui::PushStyleColor(ImGuiCol_Border, ModernColors.Border);
+							ImGui::BeginChild("##content_box4", ImVec2(boxWidth, boxHeight), true);
+							{
+								ImGui::PushStyleColor(ImGuiCol_Text, ModernColors.Accent);					ImGui::EndChild();
 								ImGui::PopStyleColor();
 								
 								// Bottom Right Box
@@ -783,7 +665,7 @@ void Menu::RenderMenu() {
 								ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(ModernColors.PrimaryBlue.x, ModernColors.PrimaryBlue.y, ModernColors.PrimaryBlue.z, 0.5f));
 								ImGui::BeginChild("##content_box4", ImVec2(boxWidth, boxHeight), true);
 								{
-									ImGui::PushStyleColor(ImGuiCol_Text, ModernColors.LightBlue);
+									ImGui::PushStyleColor(ImGuiCol_Text, ModernColors.Accent);
 									ImGui::Text(ICON_FA_GEAR " Miscellaneous");
 									ImGui::PopStyleColor();
 									ImGui::Separator();
@@ -791,12 +673,14 @@ void Menu::RenderMenu() {
 									
 									// Render fourth quarter of page content
 									ImGui::PushStyleColor(ImGuiCol_Text, ModernColors.TextPrimary);
-							if (strcmp(currentPage->pageTitle, "Aimbot") == 0) {
-								PageRenderers::AimbotBox4();
-							} else if (strcmp(currentPage->pageTitle, "ESP") == 0) {
-								PageRenderers::ESPBox4();
-							} else if (strcmp(currentPage->pageTitle, "Settings") == 0) {
-								PageRenderers::SettingsBox4();
+							if (strc							}
+							ImGui::EndChild();
+							ImGui::PopStyleColor(2);
+						}
+					} else {
+						// Welcome screen when no page is selected
+						ImGui::PushStyleColor(ImGuiCol_ChildBg, ModernColors.Surface);
+						ImGui::PushStyleColor(ImGuiCol_Border, ModernColors.Border);4();
 							} else if (strcmp(currentPage->pageTitle, "Debug") == 0) {
 								PageRenderers::DebugBox4();
 							}
@@ -812,8 +696,12 @@ void Menu::RenderMenu() {
 							{
 								ImGui::PushStyleColor(ImGuiCol_Text, ModernColors.TextSecondary);
 								ImVec2 welcomeTextSize = ImGui::CalcTextSize("Welcome to CODEX");
-								ImGui::SetCursorPosX((ImGui::GetWindowWidth() - welcomeTextSize.x) * 0.5f);
-								ImGui::SetCursorPosY((ImGui::GetWindowHeight() - welcomeTextSize.y) * 0.4f);
+								ImGui::SetCursorPosX((ImGui::GetWindowWidth(						}
+						ImGui::EndChild();
+						ImGui::PopStyleColor(2);
+					}
+					
+					ImGui::PopStyleVar(4);* 0.4f);
 								ImGui::Text("Welcome to CODEX");
 								
 								ImVec2 subtextSize = ImGui::CalcTextSize("Select a page from the sidebar to get started");
@@ -988,7 +876,7 @@ void PageRenderers::ESP() {
 				// Rainbow Settings
 				ImGui::Spacing(); ImGui::Spacing();
 				{
-					ImGui::PushStyleColor(ImGuiCol_Text, ModernColors.LightBlue);
+					ImGui::PushStyleColor(ImGuiCol_Text, ModernColors.Accent);
 					ImGui::Text(ICON_FA_RAINBOW " Rainbow Effects");
 					ImGui::PopStyleColor();
 					ImGui::Separator();
@@ -1005,7 +893,7 @@ void PageRenderers::ESP() {
 				ImGui::Spacing();
 				
 				// Individual Color Settings
-				ImGui::PushStyleColor(ImGuiCol_Text, ModernColors.LightBlue);
+				ImGui::PushStyleColor(ImGuiCol_Text, ModernColors.Accent);
 				ImGui::Text(ICON_FA_PALETTE " Individual Colors");
 				ImGui::PopStyleColor();
 				ImGui::Separator();
@@ -1014,8 +902,8 @@ void PageRenderers::ESP() {
 				if (Config::ESP::box) {
 					ImGui::Spacing(); ImGui::Spacing();
 					{
-						ImAdd::ColorEdit4("Box Visible Color", (float*)&Config::ESP::boxVisibleOutlineColor);
-						ImAdd::ColorEdit4("Box Invisible Color", (float*)&Config::ESP::boxInvisibleOutlineColor);
+						ImAdd::ColorEdit4("Box Visible", (float*)&Config::ESP::boxVisibleOutlineColor);
+						ImAdd::ColorEdit4("Box Hidden", (float*)&Config::ESP::boxInvisibleOutlineColor);
 
 						if (Config::ESP::boxFilled) {
 							ImAdd::ColorEdit4("Box Filled Visible Color", (float*)&Config::ESP::boxVisibleFilledColor);
@@ -1036,58 +924,51 @@ void PageRenderers::ESP() {
 					ImGui::Spacing(); ImGui::Spacing();
 					{
 						ImAdd::ColorEdit4("Snaplines Visible Color", (float*)&Config::ESP::snaplinesVisibleColor);
-						ImAdd::ColorEdit4("Snaplines Invisible Color", (float*)&Config::ESP::snaplinesInvisibleColor);
-					}
-				}
-
-				if (Config::ESP::distance) {
-					ImGui::Spacing(); ImGui::Spacing();
-					{
-						ImAdd::ColorEdit4("Distance Visible Color", (float*)&Config::ESP::distanceVisibleColor);
-						ImAdd::ColorEdit4("Distance Invisible Color", (float*)&Config::ESP::distanceInvisibleColor);
-					}
-				}
-
-				if (Config::ESP::skeleton) {
-					ImGui::Spacing(); ImGui::Spacing();
-					{
-						ImAdd::ColorEdit4("Skeleton Visible Color", (float*)&Config::ESP::skeletonVisibleColor);
-						ImAdd::ColorEdit4("Skeleton Invisible Color", (float*)&Config::ESP::skeletonInvisibleColor);
-					}
-				}
-			}
-		}
-	} else {
-		ImGui::Text("Please enable to view settings");
-	}
-}
-
-void PageRenderers::Settings() {
-	// Theme Selection
-	ImGui::PushStyleColor(ImGuiCol_Text, ModernColors.LightBlue);
-	ImGui::Text(ICON_FA_PALETTE " Theme Settings");
+						ImAdd::ColorEdit4("Snaplines Invisible Color", (float*)&Config::ESP::snaplinesInvisibleCovoid PageRenderers::Settings() {
+	// Display info - Theme is now fixed
+	ImGui::PushStyleColor(ImGuiCol_Text, ModernColors.Accent);
+	ImGui::Text(ICON_FA_PALETTE " Visual Settings");
 	ImGui::PopStyleColor();
 	ImGui::Separator();
 	ImGui::Spacing();
 	
-	const char* themeNames[] = {
-		"CODEX Blue (Default)",
-		"Cyber Purple",
-		"Neon Green",
-		"Fire Orange",
-		"Ice Blue"
-	};
-	
-	ImAdd::Combo("Select Theme", &currentTheme, themeNames, 5);
+	ImGui::PushStyleColor(ImGuiCol_Text, ModernColors.TextSecondary);
+	ImGui::TextWrapped("Using clean dark theme with sharp edges and cyan accents.");
+	ImGui::PopStyleColor();
 	
 	// Theme preview colors
 	ImGui::Spacing();
-	ImGui::Text("Theme Preview:");
+	ImGui::Text("Theme Colors:");
 	
 	// Preview color boxes
 	float boxSize = 25.0f;
 	auto drawList = ImGui::GetWindowDrawList();
 	auto cursorPos = ImGui::GetWindowPos() + ImVec2(ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
+	
+	// Color preview
+	drawList->AddRectFilled(
+		cursorPos,
+		cursorPos + ImVec2(boxSize, boxSize),
+		ImGui::GetColorU32(ModernColors.Background)
+	);
+	
+	drawList->AddRectFilled(
+		cursorPos + ImVec2(boxSize + 5, 0),
+		cursorPos + ImVec2(boxSize * 2 + 5, boxSize),
+		ImGui::GetColorU32(ModernColors.Surface)
+	);
+	
+	drawList->AddRectFilled(
+		cursorPos + ImVec2((boxSize + 5) * 2, 0),
+		cursorPos + ImVec2(boxSize * 3 + 10, boxSize),
+		ImGui::GetColorU32(ModernColors.Accent)
+	);
+	
+	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + boxSize + 10);
+	
+	ImGui::Spacing(); ImGui::Spacing();
+	ImGui::Separator();
+	ImGui::Spacing();s() + ImVec2(ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 	
 	// Primary colors preview
 	drawList->AddRectFilled(
@@ -1160,10 +1041,13 @@ void PageRenderers::Settings() {
 	ImGui::PopStyleColor();
 	ImGui::Spacing();
 	
-	// Stream proof toggle with enhanced styling
-	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(8.0f, 6.0f));
-	ImGui::PushStyleColor(ImGuiCol_Text, Config::Settings::streamProof ? ModernColors.Success : ModernColors.TextSecondary);
-	if (ImAdd::ToggleButton("Stream Proof Protection", &Config::Settings::streamProof)) {
+	// Stream proof toggle wi	ImGui::Spacing(); ImGui::Spacing();
+	if (ImAdd::Button("Reset to Defaults", ImVec2(150, 30))) {
+		showFPS = true;
+		showTime = true;
+		menuOpacity = 0.95f;
+		Config::Settings::streamProof = false;
+	}ImAdd::ToggleButton("Stream Proof Protection", &Config::Settings::streamProof)) {
 		// Toggle logic is handled by the ToggleButton
 	}
 	ImGui::PopStyleColor();
@@ -1500,31 +1384,23 @@ void PageRenderers::ESPBox2() {
 void PageRenderers::ESPBox3() {
 	if (Config::ESP::enable) {
 		ImAdd::ToggleButton("Snaplines", &Config::ESP::snaplines);
-		ImAdd::ToggleButton("Skeletons", &Config::ESP::skeleton);
-		ImAdd::ToggleButton("Indicators", &Config::ESP::indicator);
-		ImAdd::SliderInt("Max Distance", &Config::ESP::maxESPDistance, 1, 300);
-	} else {
-		ImGui::TextDisabled("Enable ESP to configure");
-	}
-}
-
-void PageRenderers::ESPBox4() {
-	if (Config::ESP::enable) {
-		// Rainbow Settings
-		ImGui::Text(ICON_FA_RAINBOW " Rainbow Mode:");
-		ImAdd::ToggleButton("Enable Rainbow All", &VisualSettings::bRainbowAll);
-		if (VisualSettings::bRainbowAll) {
-			ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "Rainbow active");
-		}
-		
-		ImGui::Spacing();
-		ImGui::Separator();
-		ImGui::Spacing();
-		
-		// Color configuration for visible/invisible players
-		ImGui::Text("Color Settings:");
-		if (Config::ESP::box) {
-			ImAdd::ColorEdit4("Box Visible", (float*)&Config::ESP::boxVisibleOutlineColor);
+		ImAdd::ToggleButton("Skeletons", &Confivoid PageRenderers::SettingsBox1() {
+	// Visual info - Theme is now fixed
+	ImGui::PushStyleColor(ImGuiCol_Text, ModernColors.TextSecondary);
+	ImGui::TextWrapped("Clean dark theme with sharp, modern design.");
+	ImGui::PopStyleColor();
+	
+	// Theme preview
+	ImGui::Spacing();
+	ImGui::Text("Colors:");
+	float boxSize = 20.0f;
+	auto drawList = ImGui::GetWindowDrawList();
+	auto cursorPos = ImGui::GetWindowPos() + ImVec2(ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
+	
+	drawList->AddRectFilled(cursorPos, cursorPos + ImVec2(boxSize, boxSize), ImGui::GetColorU32(ModernColors.Accent));
+	drawList->AddRectFilled(cursorPos + ImVec2(boxSize + 3, 0), cursorPos + ImVec2(boxSize * 2 + 3, boxSize), ImGui::GetColorU32(ModernColors.AccentHover));
+	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + boxSize + 5);
+}x Visible", (float*)&Config::ESP::boxVisibleOutlineColor);
 			ImAdd::ColorEdit4("Box Hidden", (float*)&Config::ESP::boxInvisibleOutlineColor);
 		}
 		ImGui::Spacing();
@@ -1546,9 +1422,11 @@ void PageRenderers::SettingsBox1() {
 	ImGui::Spacing();
 	float boxSize = 20.0f;
 	auto drawList = ImGui::GetWindowDrawList();
-	auto cursorPos = ImGui::GetWindowPos() + ImVec2(ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
-	
-	drawList->AddRectFilled(cursorPos, cursorPos + ImVec2(boxSize, boxSize), ImGui::GetColorU32(ModernColors.AccentBlue), 3.0f);
+	auto cursorPos = ImGui::GetWindowPos() + ImVec2(ImGui::void PageRenderers::SettingsBox4() {
+	// Reset and Info
+	if (ImAdd::Button("Reset All", ImVec2(-1, 25))) {
+		Config::Settings::streamProof = false;
+	};
 	drawList->AddRectFilled(cursorPos + ImVec2(boxSize + 3, 0), cursorPos + ImVec2(boxSize * 2 + 3, boxSize), ImGui::GetColorU32(ModernColors.BrightBlue), 3.0f);
 	ImGui::SetCursorPosY(ImGui::GetCursorPosY() + boxSize + 5);
 }
